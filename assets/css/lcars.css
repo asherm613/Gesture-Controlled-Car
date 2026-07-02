@@ -1,0 +1,11 @@
+/* LCARS color palette */
+.lcars-orange { background-color: #ff9c00; }
+.lcars-purple { background-color: #cc66ff; }
+.lcars-blue   { background-color: #6699ff; }
+.lcars-red    { background-color: #ff3300; }
+
+/* Optional LCARS text styling */
+.lcars-text {
+  font-family: "Helvetica", sans-serif;
+  letter-spacing: 2px;
+}
