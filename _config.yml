@@ -1,2 +1,7 @@
-theme: jekyll-theme-cayman
+title: "Gesture Controlled Car"
+description: "BlueStamp Engineering Project"
 markdown: kramdown
+theme: null
+
+plugins:
+  - jekyll-include-cache
