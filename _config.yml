@@ -1,0 +1,19 @@
+# GitHub Pages Jekyll Configuration
+title: Gesture-Controlled-Car
+description: A gesture-controlled car project with LCARS interface
+theme: jekyll-theme-slate
+plugins: []
+
+# Build settings
+markdown: kramdown
+exclude:
+  - README.md
+  - CarCode
+  - Gesture controls
+  - branding
+  - .gitignore
+  - .git
+
+# Prevent empty build
+keep_files:
+  - index.html
