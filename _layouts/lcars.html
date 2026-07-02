@@ -3,40 +3,27 @@
 <head>
   <meta charset="utf-8">
   <title>{{ page.title }}</title>
-
-  <!-- LCARS stylesheet -->
-  <link rel="stylesheet" href="/assets/css/lcars.css">
-
-  <style>
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: "Helvetica", sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .lcars-frame {
-      padding: 20px;
-      background-color: #1a1a1a;
-      border-left: 40px solid #ff9c00;
-      border-top: 40px solid #cc66ff;
-      border-bottom: 40px solid #6699ff;
-      min-height: 100vh;
-    }
-
-    .lcars-title {
-      font-size: 2.2em;
-      color: #ff9c00;
-      margin-bottom: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="/Gesture-Controlled-Car/assets/css/lcars.css">
 </head>
 
-<body>
+<body class="lcars-body">
+
   <div class="lcars-frame">
-    <div class="lcars-title">{{ page.title }}</div>
-    {{ content }}
+    <div class="lcars-left-rail">
+      <div class="lcars-segment top"></div>
+      <div class="lcars-segment mid"></div>
+      <div class="lcars-segment bottom"></div>
+    </div>
+
+    <div class="lcars-header">
+      <span class="lcars-title">{{ page.title }}</span>
+    </div>
+
+    <div class="lcars-content">
+      {{ content }}
+    </div>
   </div>
+
 </body>
 </html>
+
