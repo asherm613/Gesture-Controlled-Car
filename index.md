@@ -53,7 +53,6 @@ Components & How They Integrate
 - **9V battries** – powers everything.
 - **Bluetooth Module (HC‑05)** – will receive gesture commands from the glove.
 
-
 ---
 
 Technical Progress So Far
@@ -62,7 +61,7 @@ Technical Progress So Far
 ---
 
 Challenges
-- Unclear Car schematics 
+- Unclear Car schematics, I worked around it by discarding the instrcutions entirly and using logical deduction to to connect the parts of the chasis.
 
 ---
 
