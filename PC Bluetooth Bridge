@@ -1,0 +1,55 @@
+# ============================================
+# Persistent HC-05 COM Bridge (COM6 <-> COM9)
+# Auto-Reconnect + Keep-Alive + Crash-Proof
+# ============================================
+
+$PortA = "COM6"   # Enterprise A
+$PortB = "COM9"   # Galileo II
+
+function Open-Port($name) {
+    try {
+        $p = New-Object System.IO.Ports.SerialPort $name,9600,None,8,one
+        $p.Open()
+        Write-Host "$name opened."
+        return $p
+    }
+    catch {
+        Write-Host "$name not available. Waiting..."
+        return $null
+    }
+}
+
+# --- Persistent loop: never exits unless window closes ---
+while ($true) {
+
+    # --- Ensure ports are open ---
+    if (-not ($A) -or -not ($A.IsOpen)) {
+        $A = Open-Port $PortA
+    }
+
+    if (-not ($B) -or -not ($B.IsOpen)) {
+        $B = Open-Port $PortB
+    }
+
+    # --- If both ports are open, bridge them ---
+    if ($A -and $A.IsOpen -and $B -and $B.IsOpen) {
+
+        # Keep-alive (prevents Windows disconnect)
+        $A.Write(" ")
+        $B.Write(" ")
+
+        # Forward A → B
+        if ($A.BytesToRead -gt 0) {
+            $data = $A.ReadExisting()
+            $B.Write($data)
+        }
+
+        # Forward B → A
+        if ($B.BytesToRead -gt 0) {
+            $data = $B.ReadExisting()
+            $A.Write($data)
+        }
+    }
+
+    Start-Sleep -Milliseconds 200
+}
