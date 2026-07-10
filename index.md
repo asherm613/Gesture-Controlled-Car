@@ -1,11 +1,8 @@
 # Gesture Controlled robot
-Replace this text with a brief description (2-3 sentences) of your project. This description should draw the reader in and make them interested in what you've built. You can include what the biggest challenges, takeaways, and triumphs from completing the project were. As you complete your portfolio, remember your audience is less familiar than you are with all that your project entails!
+Gesture‑Controlled Car is a wireless robotic vehicle that responds to hand movements instead of traditional joysticks or remotes. Using an IMU‑equipped controller, the system translates tilt, rotation, and directional gestures into real‑time steering and throttle commands. The receiver onboard the car interprets these commands and drives the motors with smooth, responsive control.
 
-You should comment out all portions of your portfolio that you have not completed yet, as well as any instructions:
-```HTML 
-<!--- This is an HTML comment in Markdown -->
-<!--- Anything between these symbols will not render on the published site -->
-```
+This project explores embedded communication, sensor fusion, and wireless control systems while building a functional, intuitive interface for robotics. It also includes an FPV ESP32‑CAM for live video streaming.
+
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|
@@ -92,9 +89,6 @@ void loop() {
 ```
 
 # Bill of Materials
-Here's where you'll list the parts in your project. To add more rows, just copy and paste the example rows below.
-Don't forget to place the link of where to buy each component inside the quotation marks in the corresponding row after href =. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize this to your project needs. 
-
 | **Part** | **Note** | **Price** | **Link** |
 |:--:|:--:|:--:|:--:|
 | Car Chassis Kit | Base frame for car | $39.99 | <a href="https://www.amazon.com/dp/B0DJ7BT1V5">Link</a> |
@@ -113,8 +107,6 @@ Don't forget to place the link of where to buy each component inside the quotati
 
 # Other Resources/Examples
 One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
-- [Example 1](https://trashytuber.github.io/YimingJiaBlueStamp/)
-- [Example 2](https://sviatil0.github.io/Sviatoslav_BSE/)
-- [Example 3](https://youtu.be/QDia3e12czc?si=biwdbnpg07HosN2H)
+- [Example 1]([https://trashytuber.github.io/YimingJiaBlueStamp/](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d))
 
 To watch the BSE tutorial on how to create a portfolio, click here.
