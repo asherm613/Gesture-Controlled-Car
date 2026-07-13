@@ -24,7 +24,6 @@ For your final milestone, explain the outcome of your project. Key details to in
 - What you hope to learn in the future after everything you've learned at BSE
 
 
-
 # Second Milestone
 
 **Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
@@ -59,13 +58,13 @@ Technical Progress So Far
 
 Challenges
 - Unclear Car schematics, I worked around it by discarding the instrcutions entirly and using logical deduction to to connect the parts of the chasis.
-- HC05 pairing issues, I initally was able to work around it using my project [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transcivere system, RF24
+- HC05 pairing issues, I initally was able to work around it using my project [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transciver system, RF24
 
 ---
 
 Future Plans
 - Build the gesture‑control glove using the Nano, IMU, and RF24.
-- Convert hand tilt (pitch/roll) into direction and speed values.
+- Convert hand tilt into direction and speed values.
 - Send those values over Bluetooth to the car.
 - Integrate glove → car communication and refine responsiveness.
 
@@ -109,7 +108,6 @@ void loop() {
 | ESP32 CAM WiFi | FPV Camera | $9.99 | <a href="https://www.amazon.com/Hosyond-ESP32-CAM-Bluetooth-Development-Compatible/dp/B09TB1GJ7P?source=ps-sl-shoppingads-lpcontext&ref_=bing_fplfs&utm_source=copilot.com&th=1">Link</a> |
 
 # Other Resources/Examples
-One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
 - [Example 1](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d)
 - [Example 2]()
 - [Example 3]()
