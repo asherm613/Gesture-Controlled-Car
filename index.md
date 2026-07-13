@@ -1,5 +1,5 @@
 # Gesture Controlled robot
-Gesture‑Controlled Car is a wireless robotic vehicle that responds to hand movements instead of traditional joysticks or remotes. Using an IMU‑equipped controller, the system translates tilt, rotation, and directional gestures into real‑time steering and throttle commands. The receiver onboard the car interprets these commands and drives the motors with smooth, responsive control.
+Gesture‑Controlled Car is a wireless robotic vehicle that responds to hand movements instead of traditional joysticks or remotes. Using an IMU‑equipped controller, the system translates tilt, rotation, and directional gestures into real‑time steering and throttle commands. The receiver onboard the car interprets these commands and drives the motors.
 
 This project explores embedded communication, sensor fusion, and wireless control systems while building a functional, intuitive interface for robotics. It also includes an FPV ESP32‑CAM for live video streaming.
 
@@ -59,11 +59,12 @@ Technical Progress So Far
 
 Challenges
 - Unclear Car schematics, I worked around it by discarding the instrcutions entirly and using logical deduction to to connect the parts of the chasis.
+- HC05 pairing issues, I initally was able to work around it using my project [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transcivere system, RF24
 
 ---
 
 Future Plans
-- Build the gesture‑control glove using the Nano, IMU, and Bluetooth module.
+- Build the gesture‑control glove using the Nano, IMU, and RF24.
 - Convert hand tilt (pitch/roll) into direction and speed values.
 - Send those values over Bluetooth to the car.
 - Integrate glove → car communication and refine responsiveness.
@@ -100,15 +101,15 @@ void loop() {
 | Arduino Nano 33 BLE Sense | Gesture controller | $39.70 | <a href="https://www.amazon.com/Arduino-Nano-Sense-headers-ABX00070/dp/B0BQHZ88WD/">Link</a> |
 | Micro USB Cable | Power/data for Nano | $5.00 | <a href="https://www.amazon.com/Charging-Transfer-Android-Trustable-MYFON/dp/B098DW7485/">Link</a> |
 | Accelerometer | Motion sensing | $9.00 | <a href="https://www.amazon.com/dp/B0D2TJVMNY">Link</a> |
-| HC-05 Bluetooth Modules (x2) | Wireless transmission | $9.00 | <a href="https://www.amazon.com/DSD-TECH-HC-05-Pass-through-Communication/dp/B01G9KSAF6/">Link</a> |
+| RF24 | Wireless transmission | $14.99 | <a href="https://www.amazon.com/Aideepen-NRF24L01-Transceiver-Breakout-Compatible/dp/B07ZGQ2X7Q/ref=sr_1_1_sspa?crid=99G5OJXI92OD&dib=eyJ2IjoiMSJ9.SfPdL9U9Z29-1y-O21koQy_1az5Xh4TTqomMlO854jOSvGYrWDY_x2lIffUv6gAxi21pobaw2AsUX0eyM2MZVsxhTSYY20phkY-E8gd6J6epmfVsWVOGNGU3E-01-GgkUHJyKek6mZpBmLh5sQczLOT_qodXG935PEZocmXfN2XuNNRfqU2oxKlikjh-udQdoY_D90zkKfsDhRCZpy_5F8JzNUcwuWANoGU0AjI0vqg.RTNUwoWUKnYQ6fNMkYemUPdpm-h2pQE0yODHnypquuE&dib_tag=se&keywords=nrf24&qid=1783697464&sprefix=nrf24%2Caps%2C147&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1">Link</a> |
 | Breadboard Power Supply | 3.3V/5V power | $8.00 | <a href="https://www.amazon.com/ALAMSCN-Solderless-Breadboard-Battery-Arduino/dp/B08JYPMCZY/">Link</a> |
 | 9V Batteries | Power | $8.69 | <a href="https://www.amazon.com/Amazon-Basics-Performance-All-Purpose-Batteries/dp/B00MH4QM1S/">Link</a> |
 | Velcro Tape | Mounting components | $8.00 | <a href="https://www.amazon.com/Art3d-Sticky-Double-Sided-Command-Adhesive/dp/B0B58FGF8H/">Link</a> |
 | Digital Multimeter (DMM) | Testing circuits | $9.99 | <a href="https://www.amazon.com/dp/B0CXM242J1">Link</a> |
-
+| ESP32 CAM WiFi | FPV Camera | $9.99 | <a href="https://www.amazon.com/Hosyond-ESP32-CAM-Bluetooth-Development-Compatible/dp/B09TB1GJ7P?source=ps-sl-shoppingads-lpcontext&ref_=bing_fplfs&utm_source=copilot.com&th=1">Link</a> |
 
 # Other Resources/Examples
 One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
-- [Example 1]([https://trashytuber.github.io/YimingJiaBlueStamp/](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d))
-
-To watch the BSE tutorial on how to create a portfolio, click here.
+- [Example 1](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d)
+- [Example 2]()
+- [Example 3]()
