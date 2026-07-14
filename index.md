@@ -8,7 +8,6 @@ This project explores embedded communication, sensor fusion, and wireless contro
 |:--:|:--:|:--:|:--:|
 | Asher M | Yeshivat Frisch | Computer Science | Incoming Junior
 
-**Replace the BlueStamp logo below with an image of yourself and your completed project. Follow the guide [here](https://tomcam.github.io/least-github-pages/adding-images-github-pages-site.html) if you need help.**
 
 ![Headstone Image]()
   
@@ -38,8 +37,6 @@ For your second milestone, explain what you've worked on since your previous mil
 
 # First Milestone
 
-**Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/jKzRvB4pZn8?si=eezAk86leaGEL-HH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Components & How They Integrate
@@ -58,7 +55,7 @@ Technical Progress So Far
 
 Challenges
 - Unclear Car schematics, I worked around it by discarding the instrcutions entirly and using logical deduction to to connect the parts of the chasis.
-- HC05 pairing issues, I initally was able to work around it using my project [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transciver system, RF24
+- HC05 pairing issues, I initally was able to work around it using one of my projects, [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transciver system, RF24
 
 ---
 
@@ -73,8 +70,6 @@ Future Plans
 ![Headstone Image](circuit_image.png)
 
 # Code
-Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
-
 ```c++
 #include <SPI.h>
 #include <nRF24L01.h>
@@ -405,5 +400,6 @@ void loop() {
 
 # Other Resources/Examples
 - [Example 1](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d)
-- [Example 2]()
-- [Example 3]()
+- [Example 2](https://github.com/espressif/arduino-esp32)
+- [Example 3](https://forum.arduino.cc/t/hc-05-is-in-at-mode-but-not-responding-to-any-command/275186/8)
+- [Example 4](https://www.hackster.io/noah_arduino/using-esp32-cam-with-arduino-b4f12c)
