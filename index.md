@@ -1,7 +1,7 @@
-# Gesture Controlled robot
-Gesture‑Controlled Car is a wireless robotic vehicle that responds to hand movements instead of traditional joysticks or remotes. Using an IMU‑equipped controller, the system translates tilt, rotation, and directional gestures into real‑time steering and throttle commands. The receiver onboard the car interprets these commands and drives the motors.
+# Infrared Controlled robot
+This project is a wireless, Arduino‑driven robotic car that uses an IR remote for control instead of gesture input. The onboard IR receiver decodes remote commands and translates them into motor actions for steering, throttle, and braking. A motor driver handles the power delivery to the wheels, while the Arduino manages timing, direction, and command processing.
 
-This project explores embedded communication, sensor fusion, and wireless control systems while building a functional, intuitive interface for robotics. It also includes an FPV ESP32‑CAM for live video streaming.
+The build focuses on embedded control, wireless communication, and real‑time motor driving. An ESP32‑CAM module provides FPV video streaming, allowing the car to be operated remotely with live visual feedback. The result is a compact, responsive robotic vehicle that demonstrates core robotics concepts in a simple, extensible platform.
 
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
@@ -55,7 +55,7 @@ Technical Progress So Far
 
 Challenges
 - Unclear Car schematics, I worked around it by discarding the instrcutions entirly and using logical deduction to to connect the parts of the chasis.
-- HC05 pairing issues, I initally was able to work around it using one of my projects, [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transciver system, RF24
+- HC05 pairing issues, I initally was able to work around it using one of my projects, [Subspace Relay](https://github.com/asherm613/Subspace-Relay) but the modules then died so I decided to switch to a much simpler transciver system, IR and remove gestyure controlls entirly
 
 ---
 
@@ -71,177 +71,126 @@ Future Plans
 
 # Code
 ```c++
-#include <SPI.h>
-#include <nRF24L01.h>
-#include <RF24.h>
-#include <Wire.h>
+#include <IRremote.h>
 
-RF24 radio(7, 8);  // CE=7, CSN=8 (standard Arduino pins)
-const byte address[6] = "NODE1";
+#define IR_PIN 2
 
-const int MPU_ADDR = 0x68;
-int16_t AcX, AcY, AcZ;
+// Motor pins from your diagram
+int ENA = 9;   // Left motor enable (PWM)
+int IN1 = 12;  // Left motor forward
+int IN2 = 11;  // Left motor backward
 
-struct Packet {
-  char dir;
-  uint8_t angle;
-};
+int ENB = 6;   // Right motor enable (PWM)
+int IN3 = 7;   // Right motor forward
+int IN4 = 8;   // Right motor backward
 
-void setup() {
-  Serial.begin(9600);
-
-  // RF24 setup
-  radio.begin();
-  radio.openWritingPipe(address);
-  radio.setPALevel(RF24_PA_LOW);
-  radio.stopListening();
-
-  // MPU6050 setup
-  Wire.begin();
-  Wire.beginTransmission(MPU_ADDR);
-  Wire.write(0x6B);
-  Wire.write(0);
-  Wire.endTransmission(true);
-
-  delay(300);
-}
-
-void loop() {
-  Read_accelerometer();
-
-  char dir = 's';
-
-  if (AcX < 60) dir = 'f';
-  else if (AcX > 130) dir = 'b';
-  else if (AcY < 60) dir = 'l';
-  else if (AcY > 130) dir = 'r';
-
-  int angleToSend = (dir == 'l' || dir == 'r') ? AcY : AcX;
-  angleToSend = constrain(angleToSend, 0, 180);
-
-  Packet pkt;
-  pkt.dir = dir;
-  pkt.angle = angleToSend;
-
-  radio.write(&pkt, sizeof(pkt));
-
-  Serial.print("TX: ");
-  Serial.print(dir);
-  Serial.print(" ");
-  Serial.println(angleToSend);
-
-  delay(100);
-}
-
-void Read_accelerometer() {
-  Wire.beginTransmission(MPU_ADDR);
-  Wire.write(0x3B);
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU_ADDR, 6, true);
-
-  AcX = Wire.read() << 8 | Wire.read();
-  AcY = Wire.read() << 8 | Wire.read();
-  AcZ = Wire.read() << 8 | Wire.read();
-
-  AcX = map(AcX, -17000, 17000, 0, 180);
-  AcY = map(AcY, -17000, 17000, 0, 180);
-  AcZ = map(AcZ, -17000, 17000, 0, 180);
-}
-```
-```c++
-#include <SPI.h>
-#include <nRF24L01.h>
-#include <RF24.h>
-
-// Software SPI pins
-RF24 radio(4, 5);  // CE=4, CSN=5
-
-// Packet format
-struct Packet {
-  char dir;
-  uint8_t angle;
-};
-
-// Motor pins (your original setup)
-int lBwd = 5;
-int lFwd = 11;
-int rBwd = 9;
-int rFwd = 10;
-
-int speed = 0;
+int speed = 150;
+int maxSpeed = 255;
+int minSpeed = 0;
 
 void setup() {
   Serial.begin(9600);
 
-  pinMode(rFwd, OUTPUT);
-  pinMode(rBwd, OUTPUT);
-  pinMode(lFwd, OUTPUT);
-  pinMode(lBwd, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
 
-  // Software SPI init
-  radio.begin(4, 5);  
-  radio.setSPIPins(A0, A1, A2);  // SCK=A0, MOSI=A1, MISO=A2
+  pinMode(ENB, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
 
-  radio.openReadingPipe(0, "NODE1");
-  radio.setPALevel(RF24_PA_LOW);
-  radio.startListening();
-}
-
-void left() {
-  analogWrite(rBwd, 0);
-  analogWrite(lFwd, 0);
-  analogWrite(lBwd, speed);
-  analogWrite(rFwd, speed);
-}
-
-void right() {
-  analogWrite(lBwd, 0);
-  analogWrite(rFwd, 0);
-  analogWrite(rBwd, speed);
-  analogWrite(lFwd, speed);
+  IrReceiver.begin(IR_PIN, ENABLE_LED_FEEDBACK);
 }
 
 void forward() {
-  analogWrite(rBwd, 0);
-  analogWrite(lBwd, 0);
-  analogWrite(rFwd, speed);
-  analogWrite(lFwd, speed);
+  Serial.println("engage");
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+
+  analogWrite(ENA, speed);
+  analogWrite(ENB, speed);
 }
 
 void backward() {
-  analogWrite(rFwd, 0);
-  analogWrite(lFwd, 0);
-  analogWrite(rBwd, speed);
-  analogWrite(lBwd, speed);
+  Serial.println("reverse engines");
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+
+  analogWrite(ENA, speed);
+  analogWrite(ENB, speed);
+}
+
+void left() {
+  Serial.println("heading 090");
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+
+  analogWrite(ENA, speed);
+  analogWrite(ENB, speed);
+}
+
+void right() {
+  Serial.println("heading 270");
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+
+  analogWrite(ENA, speed);
+  analogWrite(ENB, speed);
 }
 
 void stopMotors() {
-  analogWrite(rFwd, 0);
-  analogWrite(rBwd, 0);
-  analogWrite(lFwd, 0);
-  analogWrite(lBwd, 0);
+  Serial.println("all stop");
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+
+  analogWrite(ENA, 0);
+  analogWrite(ENB, 0);
+}
+
+void speedUp() {
+  for (int i = speed; i <= maxSpeed; i++) {
+    speed = i;
+    delay(5);
+  }
+}
+
+void slowDown() {
+  for (int i = speed; i >= minSpeed; i--) {
+    speed = i;
+    delay(5);
+  }
 }
 
 void loop() {
-  if (radio.available()) {
-    Packet pkt;
-    radio.read(&pkt, sizeof(pkt));
 
-    char dir = pkt.dir;
-    int angle = pkt.angle;
+  if (IrReceiver.decode()) {
 
-    speed = map(angle, 0, 180, 0, 255);
+    uint8_t cmd = IrReceiver.decodedIRData.command;
+    Serial.println(cmd);
 
-    if (dir == 'f') forward();
-    else if (dir == 'b') backward();
-    else if (dir == 'l') left();
-    else if (dir == 'r') right();
-    else if (dir == 's') { stopMotors(); speed = 0; }
+    if (cmd == 24) forward();        // UP
+    else if (cmd == 82) backward();  // DOWN
+    else if (cmd == 8) left();       // LEFT
+    else if (cmd == 90) right();     // RIGHT
+    else if (cmd == 25) stopMotors();// STOP (0)
+    else if (cmd == 28) speedUp();   // OK = speed up
+    else if (cmd == 13) slowDown();  // # = slow down
 
-    Serial.print("RX: ");
-    Serial.print(dir);
-    Serial.print(" ");
-    Serial.println(angle);
+    IrReceiver.resume();
   }
 }
 ```
@@ -391,7 +340,7 @@ void loop() {
 | Arduino Nano 33 BLE Sense | Gesture controller | $39.70 | <a href="https://www.amazon.com/Arduino-Nano-Sense-headers-ABX00070/dp/B0BQHZ88WD/">Link</a> |
 | Micro USB Cable | Power/data for Nano | $5.00 | <a href="https://www.amazon.com/Charging-Transfer-Android-Trustable-MYFON/dp/B098DW7485/">Link</a> |
 | Accelerometer | Motion sensing | $9.00 | <a href="https://www.amazon.com/dp/B0D2TJVMNY">Link</a> |
-| RF24 | Wireless transmission | $14.99 | <a href="https://www.amazon.com/Aideepen-NRF24L01-Transceiver-Breakout-Compatible/dp/B07ZGQ2X7Q/ref=sr_1_1_sspa?crid=99G5OJXI92OD&dib=eyJ2IjoiMSJ9.SfPdL9U9Z29-1y-O21koQy_1az5Xh4TTqomMlO854jOSvGYrWDY_x2lIffUv6gAxi21pobaw2AsUX0eyM2MZVsxhTSYY20phkY-E8gd6J6epmfVsWVOGNGU3E-01-GgkUHJyKek6mZpBmLh5sQczLOT_qodXG935PEZocmXfN2XuNNRfqU2oxKlikjh-udQdoY_D90zkKfsDhRCZpy_5F8JzNUcwuWANoGU0AjI0vqg.RTNUwoWUKnYQ6fNMkYemUPdpm-h2pQE0yODHnypquuE&dib_tag=se&keywords=nrf24&qid=1783697464&sprefix=nrf24%2Caps%2C147&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1">Link</a> |
+| IR transceiver | Wireless transmission | $. | <a href="">Link</a> |
 | Breadboard Power Supply | 3.3V/5V power | $8.00 | <a href="https://www.amazon.com/ALAMSCN-Solderless-Breadboard-Battery-Arduino/dp/B08JYPMCZY/">Link</a> |
 | 9V Batteries | Power | $8.69 | <a href="https://www.amazon.com/Amazon-Basics-Performance-All-Purpose-Batteries/dp/B00MH4QM1S/">Link</a> |
 | Velcro Tape | Mounting components | $8.00 | <a href="https://www.amazon.com/Art3d-Sticky-Double-Sided-Command-Adhesive/dp/B0B58FGF8H/">Link</a> |
