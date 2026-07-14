@@ -397,6 +397,7 @@ void loop() {
 | Velcro Tape | Mounting components | $8.00 | <a href="https://www.amazon.com/Art3d-Sticky-Double-Sided-Command-Adhesive/dp/B0B58FGF8H/">Link</a> |
 | Digital Multimeter (DMM) | Testing circuits | $9.99 | <a href="https://www.amazon.com/dp/B0CXM242J1">Link</a> |
 | ESP32 CAM WiFi | FPV Camera | $9.99 | <a href="https://www.amazon.com/Hosyond-ESP32-CAM-Bluetooth-Development-Compatible/dp/B09TB1GJ7P?source=ps-sl-shoppingads-lpcontext&ref_=bing_fplfs&utm_source=copilot.com&th=1">Link</a> |
+| FTDI | USB interface for ESP | $14.49 | <a href="https://www.amazon.com/DSD-TECH-SH-U09C5-Converter-Support/dp/B07WX2DSVB/ref=sr_1_5?crid=3V87P5Q8Y81AI&dib=eyJ2IjoiMSJ9.udrhVqoYpjjrLvEmoHwoc2hOSwPgxWX8LTX3tOetBJPG7BYbDL2dNuUTLaO535DxuTqLRycHskMsZSIEy_IfYHQzMGvcI7Rcwsa1RZkIJaiNc0A0dI_04VHDayHAOiV-neZWaVRIgTB5kztaV_2ojVEoD0M1paDYbXVZ8KHsOuc9gNdS4hhgvqaaPfdn7x8b5j2supt1xCDpYGntsQAcvciJ3xWej-kA6xNpiUlDuB0.dyscJbTrcTl6V2wKfYS8IeSH0LV4zvlHtdHcI9CyRqQ&dib_tag=se&keywords=usb%2Bto%2Bttl&qid=1783955558&sprefix=usb%2Bto%2Bttl%2Caps%2C260&sr=8-5">Link</a> |
 
 # Other Resources/Examples
 - [Example 1](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d)
