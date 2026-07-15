@@ -15,8 +15,8 @@ This build focuses on embedded control, wireless communication, and real‑time 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/neqEeXhMXvA?si=XrfGbD13r2VVgNvG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-For your final milestone, explain the outcome of your project. Key details to include are:
-- I've added IR control
+Final Project Outcomes
+- I added IR remote control
 - My biggest challenge was the remote control Bluetooth didnt work despite several creative solution but eventually I was able to get it working using IR
 - I learned about remote control, Motor Driver, and reputable manufacturers
 - I hope to learn more about the coding side of things in it was the most fun and very straight forwards on this project
