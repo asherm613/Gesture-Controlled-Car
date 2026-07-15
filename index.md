@@ -16,7 +16,7 @@ This build focuses on embedded control, wireless communication, and real‑time 
 
 
 For your final milestone, explain the outcome of your project. Key details to include are:
-- Ive added IR control
+- I've added IR control
 - My biggest challenge was the remote control Bluetooth didnt work despite several creative solution but eventually I was able to get it working using IR
 - I learned about remote control, Motor Driver, and reputable manufacturers
 - I hope to learn more about the coding side of things in it was the most fun and very straight forwards on this project
@@ -54,7 +54,7 @@ Future Plans
 
 
 # Schematics 
-![Headstone Image](circuit_image (1).png)
+![Headstone Image](circuit_image(1).png)
 
 # Code
 ```c++
@@ -208,13 +208,8 @@ void loop() {
 | Arduino Uno | Main controller | $14.98 | <a href="https://www.amazon.com/ELEGOO-Board-ATmega328P-ATMEGA16U2-Compliant/dp/B01EWOE0UU/">Link</a> |
 | Electronics Kit | Components & sensors | $14.00 | <a href="https://www.amazon.com/Smraza-Electronics-Potentiometer-tie-Points-Breadboard/dp/B0B62RL725/">Link</a> |
 | Breadboard Kit | Prototyping circuits | $8.79 | <a href="https://www.amazon.com/Breadboards-Solderless-Breadboard-Distribution-Connecting/dp/B07DL13RZH/">Link</a> |
-| Arduino Nano 33 BLE Sense | Gesture controller | $39.70 | <a href="https://www.amazon.com/Arduino-Nano-Sense-headers-ABX00070/dp/B0BQHZ88WD/">Link</a> |
-| Micro USB Cable | Power/data for Nano | $5.00 | <a href="https://www.amazon.com/Charging-Transfer-Android-Trustable-MYFON/dp/B098DW7485/">Link</a> |
-| Accelerometer | Motion sensing | $9.00 | <a href="https://www.amazon.com/dp/B0D2TJVMNY">Link</a> |
 | IR transceiver | Wireless transmission | $6.59 | <a href="https://www.amazon.com/DWEII-Infrared-Wireless-Control-Raspberry/dp/B09ZTZQFP7/ref=sr_1_2?crid=3AP9BIU0LVGNN&dib=eyJ2IjoiMSJ9.0kgolsEh7DaeYquGFTAptK94HMUOj4slCUNmffPPwfBCVMGXCUV6ksznLrIxaLws0yKnkwDx8-oZHFMThfrQKyz7FgWRMJEsZ4OR6RoyP5igFByK_ZOJ3V_ewside9T12VY4PDmGewsNH6paNzUhLIVxfMRAYMCAd7laXihUHlcHvNC5UvSm7McQ0gLaltUGP1r7OaTx6Gquc7dLqVvkMAsib-_55vNyYhXUMdxKOmg.c6szPj_-Xva-1jxwYeYUILJa7X3FUEOhKOqqbO7jlAk&dib_tag=se&keywords=ir+remote+arduino&qid=1784138377&sprefix=ir+remote+ardunio%2Caps%2C126&sr=8-2">Link</a> |
-| Breadboard Power Supply | 3.3V/5V power | $8.00 | <a href="https://www.amazon.com/ALAMSCN-Solderless-Breadboard-Battery-Arduino/dp/B08JYPMCZY/">Link</a> |
 | 9V Batteries | Power | $8.69 | <a href="https://www.amazon.com/Amazon-Basics-Performance-All-Purpose-Batteries/dp/B00MH4QM1S/">Link</a> |
-| Velcro Tape | Mounting components | $8.00 | <a href="https://www.amazon.com/Art3d-Sticky-Double-Sided-Command-Adhesive/dp/B0B58FGF8H/">Link</a> |
 | Digital Multimeter (DMM) | Testing circuits | $9.99 | <a href="https://www.amazon.com/dp/B0CXM242J1">Link</a> |
 
 
