@@ -1,7 +1,7 @@
-# Infrared Controlled robot
+# Infrared Controlled robot, Kobayashi Maru
 This project is a wireless, Arduino‑driven robotic car that uses an IR remote for control instead of gesture input. The onboard IR receiver decodes remote commands and translates them into motor actions for steering, throttle, and braking. A motor driver handles the power delivery to the wheels, while the Arduino manages timing, direction, and command processing.
 
-The build focuses on embedded control, wireless communication, and real‑time motor driving. An ESP32‑CAM module provides FPV video streaming, allowing the car to be operated remotely with live visual feedback. The result is a compact, responsive robotic vehicle that demonstrates core robotics concepts in a simple, extensible platform.
+This build focuses on embedded control, wireless communication, and real‑time motor driving. 
 
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
@@ -9,31 +9,18 @@ The build focuses on embedded control, wireless communication, and real‑time m
 | Asher M | Yeshivat Frisch | Computer Science | Incoming Junior
 
 
-![Headstone Image]()
+![Headstone Image](20260715_180827562_iOS.jpg)
   
 # Final Milestone
 
-**Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
 
 
 For your final milestone, explain the outcome of your project. Key details to include are:
-- What you've accomplished since your previous milestone
-- What your biggest challenges and triumphs were at BSE
-- A summary of key topics you learned about
-- What you hope to learn in the future after everything you've learned at BSE
+- Ive added IR control
+- My biggest challenge was the remote control Bluetooth didnt work despite several creative solution but eventually I was able to get it working using IR
+- I learned about remote control, Motor Driver, and reputable manufacturers
+- I hope to learn more about the coding side of things in it was the most fun and very straight forwards on this project
 
-
-# Second Milestone
-
-**Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GfkQ12mFPzY?si=WwiRgI6MAY1NraKs&amp;start=204" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-For your second milestone, explain what you've worked on since your previous milestone. You can highlight:
-- Technical details of what you've accomplished and how they contribute to the final goal
-- What has been surprising about the project so far
-- Previous challenges you faced that you overcame
-- What needs to be completed before your final milestone 
 
 # First Milestone
 
@@ -67,116 +54,135 @@ Future Plans
 
 
 # Schematics 
-![Headstone Image](circuit_image.png)
+![Headstone Image](circuit_image (1).png)
 
 # Code
 ```c++
 #include <IRremote.h>
 
-#define IR_PIN 2
+#define IR_PIN 2   // IR on pin 2
 
-// Motor pins from your diagram
-int ENA = 9;   // Left motor enable (PWM)
-int IN1 = 12;  // Left motor forward
-int IN2 = 11;  // Left motor backward
+// FRONT MOTORS (BOW)
+int FL_FWD = 3;     // front-left forward
+int FL_REV = 4;     // front-left reverse
 
-int ENB = 6;   // Right motor enable (PWM)
-int IN3 = 7;   // Right motor forward
-int IN4 = 8;   // Right motor backward
+int FR_FWD = 13;    // front-right forward
+int FR_REV = 10;    // front-right reverse
 
-int speed = 150;
-int maxSpeed = 255;
-int minSpeed = 0;
+// REAR MOTORS (STERN)
+int BL_FWD = 12;    // back-left forward
+int BL_REV = 11;    // back-left reverse
+
+int BR_FWD = 8;     // back-right forward
+int BR_REV = 7;     // back-right reverse
 
 void setup() {
   Serial.begin(9600);
+  Serial.println(" ");
+  Serial.println("initiate startup on USS Kobayashi Maru authorization 4-7 Alpha Tango");
+ 
+  pinMode(FL_FWD, OUTPUT);
+  pinMode(FL_REV, OUTPUT);
+  pinMode(FR_FWD, OUTPUT);
+  pinMode(FR_REV, OUTPUT);
 
-  pinMode(ENA, OUTPUT);
-  pinMode(IN1, OUTPUT);
-  pinMode(IN2, OUTPUT);
-
-  pinMode(ENB, OUTPUT);
-  pinMode(IN3, OUTPUT);
-  pinMode(IN4, OUTPUT);
+  pinMode(BL_FWD, OUTPUT);
+  pinMode(BL_REV, OUTPUT);
+  pinMode(BR_FWD, OUTPUT);
+  pinMode(BR_REV, OUTPUT);
 
   IrReceiver.begin(IR_PIN, ENABLE_LED_FEEDBACK);
 }
 
+void allStop() {
+  Serial.println("all stop");
+
+  digitalWrite(FL_FWD, LOW);
+  digitalWrite(FL_REV, LOW);
+  digitalWrite(FR_FWD, LOW);
+  digitalWrite(FR_REV, LOW);
+  digitalWrite(BL_FWD, LOW);
+  digitalWrite(BL_REV, LOW);
+  digitalWrite(BR_FWD, LOW);
+  digitalWrite(BR_REV, LOW);
+}
+
 void forward() {
   Serial.println("engage");
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
 
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
+  // FRONT LEFT
+  digitalWrite(FL_FWD, HIGH);
+  digitalWrite(FL_REV, LOW);
 
-  analogWrite(ENA, speed);
-  analogWrite(ENB, speed);
+  // FRONT RIGHT
+  digitalWrite(FR_FWD, HIGH);
+  digitalWrite(FR_REV, LOW);
+
+  // BACK LEFT
+  digitalWrite(BL_FWD, HIGH);
+  digitalWrite(BL_REV, LOW);
+
+  // BACK RIGHT
+  digitalWrite(BR_FWD, HIGH);
+  digitalWrite(BR_REV, LOW);
 }
 
 void backward() {
   Serial.println("reverse engines");
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
 
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
+  // FRONT LEFT
+  digitalWrite(FL_FWD, LOW);
+  digitalWrite(FL_REV, HIGH);
 
-  analogWrite(ENA, speed);
-  analogWrite(ENB, speed);
+  // FRONT RIGHT
+  digitalWrite(FR_FWD, LOW);
+  digitalWrite(FR_REV, HIGH);
+
+  // BACK LEFT
+  digitalWrite(BL_FWD, LOW);
+  digitalWrite(BL_REV, HIGH);
+
+  // BACK RIGHT
+  digitalWrite(BR_FWD, LOW);
+  digitalWrite(BR_REV, HIGH);
 }
 
 void left() {
   Serial.println("heading 090");
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
 
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
+  digitalWrite(FL_FWD, LOW);
+  digitalWrite(FL_REV, LOW);
 
-  analogWrite(ENA, speed);
-  analogWrite(ENB, speed);
+  digitalWrite(BL_FWD, LOW);
+  digitalWrite(BL_REV, LOW);
+
+  // right side backward
+  digitalWrite(FR_FWD, HIGH);
+  digitalWrite(FR_REV, LOW);
+
+  digitalWrite(BR_FWD, HIGH);
+  digitalWrite(BR_REV, LOW);
 }
 
 void right() {
   Serial.println("heading 270");
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
 
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
+  // left side forward
+  digitalWrite(FL_FWD, HIGH);
+  digitalWrite(FL_REV, LOW);
 
-  analogWrite(ENA, speed);
-  analogWrite(ENB, speed);
-}
+  digitalWrite(BL_FWD, HIGH);
+  digitalWrite(BL_REV, LOW);
 
-void stopMotors() {
-  Serial.println("all stop");
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, LOW);
+  // right side backward
+  digitalWrite(FR_FWD, LOW);
+  digitalWrite(FR_REV, LOW);
 
-  analogWrite(ENA, 0);
-  analogWrite(ENB, 0);
-}
-
-void speedUp() {
-  for (int i = speed; i <= maxSpeed; i++) {
-    speed = i;
-    delay(5);
-  }
-}
-
-void slowDown() {
-  for (int i = speed; i >= minSpeed; i--) {
-    speed = i;
-    delay(5);
-  }
+  digitalWrite(BR_FWD, LOW);
+  digitalWrite(BR_REV, LOW);
 }
 
 void loop() {
-
   if (IrReceiver.decode()) {
 
     uint8_t cmd = IrReceiver.decodedIRData.command;
@@ -186,145 +192,10 @@ void loop() {
     else if (cmd == 82) backward();  // DOWN
     else if (cmd == 8) left();       // LEFT
     else if (cmd == 90) right();     // RIGHT
-    else if (cmd == 25) stopMotors();// STOP (0)
-    else if (cmd == 28) speedUp();   // OK = speed up
-    else if (cmd == 13) slowDown();  // # = slow down
+    else if (cmd == 25) allStop();   // STOP
 
     IrReceiver.resume();
   }
-}
-```
-```c++
-#include <Arduino.h>
-#include "esp_camera.h"
-#include <WiFi.h>
-
-// ===========================
-// Select camera model in board_config.h
-// ===========================
-#include "board_config.h"
-
-// ===========================
-// Enter your WiFi credentials
-// ===========================
-const char *ssid = "******";
-const char *password = "******";
-
-void startCameraServer();
-void setupLedFlash();
-
-void setup() {
-  Serial.begin(115200);
-  Serial.setDebugOutput(true);
-  Serial.println();
-
-  camera_config_t config;
-  config.ledc_channel = LEDC_CHANNEL_0;
-  config.ledc_timer = LEDC_TIMER_0;
-  config.pin_d0 = Y2_GPIO_NUM;
-  config.pin_d1 = Y3_GPIO_NUM;
-  config.pin_d2 = Y4_GPIO_NUM;
-  config.pin_d3 = Y5_GPIO_NUM;
-  config.pin_d4 = Y6_GPIO_NUM;
-  config.pin_d5 = Y7_GPIO_NUM;
-  config.pin_d6 = Y8_GPIO_NUM;
-  config.pin_d7 = Y9_GPIO_NUM;
-  config.pin_xclk = XCLK_GPIO_NUM;
-  config.pin_pclk = PCLK_GPIO_NUM;
-  config.pin_vsync = VSYNC_GPIO_NUM;
-  config.pin_href = HREF_GPIO_NUM;
-  config.pin_sccb_sda = SIOD_GPIO_NUM;
-  config.pin_sccb_scl = SIOC_GPIO_NUM;
-  config.pin_pwdn = PWDN_GPIO_NUM;
-  config.pin_reset = RESET_GPIO_NUM;
-  config.xclk_freq_hz = 20000000;
-  config.frame_size = FRAMESIZE_UXGA;
-  config.pixel_format = PIXFORMAT_JPEG;  // for streaming
-  //config.pixel_format = PIXFORMAT_RGB565; // for face detection/recognition
-  config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
-  config.fb_location = CAMERA_FB_IN_PSRAM;
-  config.jpeg_quality = 12;
-  config.fb_count = 1;
-
-  // if PSRAM IC present, init with UXGA resolution and higher JPEG quality
-  //                      for larger pre-allocated frame buffer.
-  if (config.pixel_format == PIXFORMAT_JPEG) {
-    if (psramFound()) {
-      config.jpeg_quality = 10;
-      config.fb_count = 2;
-      config.grab_mode = CAMERA_GRAB_LATEST;
-    } else {
-      // Limit the frame size when PSRAM is not available
-      config.frame_size = FRAMESIZE_SVGA;
-      config.fb_location = CAMERA_FB_IN_DRAM;
-    }
-  } else {
-    // Best option for face detection/recognition
-    config.frame_size = FRAMESIZE_240X240;
-#if CONFIG_IDF_TARGET_ESP32S3
-    config.fb_count = 2;
-#endif
-  }
-
-#if defined(CAMERA_MODEL_ESP_EYE)
-  pinMode(13, INPUT_PULLUP);
-  pinMode(14, INPUT_PULLUP);
-#endif
-
-  // camera init
-  esp_err_t err = esp_camera_init(&config);
-  if (err != ESP_OK) {
-    Serial.printf("Camera init failed with error 0x%x", err);
-    return;
-  }
-
-  sensor_t *s = esp_camera_sensor_get();
-  // initial sensors are flipped vertically and colors are a bit saturated
-  if (s->id.PID == OV3660_PID) {
-    s->set_vflip(s, 1);        // flip it back
-    s->set_brightness(s, 1);   // up the brightness just a bit
-    s->set_saturation(s, -2);  // lower the saturation
-  }
-  // drop down frame size for higher initial frame rate
-  if (config.pixel_format == PIXFORMAT_JPEG) {
-    s->set_framesize(s, FRAMESIZE_QVGA);
-  }
-
-#if defined(CAMERA_MODEL_M5STACK_WIDE) || defined(CAMERA_MODEL_M5STACK_ESP32CAM)
-  s->set_vflip(s, 1);
-  s->set_hmirror(s, 1);
-#endif
-
-#if defined(CAMERA_MODEL_ESP32S3_EYE)
-  s->set_vflip(s, 1);
-#endif
-
-// Setup LED FLash if LED pin is defined in camera_pins.h
-#if defined(LED_GPIO_NUM)
-  setupLedFlash();
-#endif
-
-  WiFi.begin(ssid, password);
-  WiFi.setSleep(false);
-
-  Serial.print("WiFi connecting");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi connected");
-
-  startCameraServer();
-
-  Serial.print("Camera Ready! Use 'http://");
-  Serial.print(WiFi.localIP());
-  Serial.println("' to connect");
-}
-
-void loop() {
-  // Do nothing. Everything is done in another task by the web server
-  delay(10000);
 }
 ```
 
@@ -340,16 +211,13 @@ void loop() {
 | Arduino Nano 33 BLE Sense | Gesture controller | $39.70 | <a href="https://www.amazon.com/Arduino-Nano-Sense-headers-ABX00070/dp/B0BQHZ88WD/">Link</a> |
 | Micro USB Cable | Power/data for Nano | $5.00 | <a href="https://www.amazon.com/Charging-Transfer-Android-Trustable-MYFON/dp/B098DW7485/">Link</a> |
 | Accelerometer | Motion sensing | $9.00 | <a href="https://www.amazon.com/dp/B0D2TJVMNY">Link</a> |
-| IR transceiver | Wireless transmission | $. | <a href="">Link</a> |
+| IR transceiver | Wireless transmission | $6.59 | <a href="https://www.amazon.com/DWEII-Infrared-Wireless-Control-Raspberry/dp/B09ZTZQFP7/ref=sr_1_2?crid=3AP9BIU0LVGNN&dib=eyJ2IjoiMSJ9.0kgolsEh7DaeYquGFTAptK94HMUOj4slCUNmffPPwfBCVMGXCUV6ksznLrIxaLws0yKnkwDx8-oZHFMThfrQKyz7FgWRMJEsZ4OR6RoyP5igFByK_ZOJ3V_ewside9T12VY4PDmGewsNH6paNzUhLIVxfMRAYMCAd7laXihUHlcHvNC5UvSm7McQ0gLaltUGP1r7OaTx6Gquc7dLqVvkMAsib-_55vNyYhXUMdxKOmg.c6szPj_-Xva-1jxwYeYUILJa7X3FUEOhKOqqbO7jlAk&dib_tag=se&keywords=ir+remote+arduino&qid=1784138377&sprefix=ir+remote+ardunio%2Caps%2C126&sr=8-2">Link</a> |
 | Breadboard Power Supply | 3.3V/5V power | $8.00 | <a href="https://www.amazon.com/ALAMSCN-Solderless-Breadboard-Battery-Arduino/dp/B08JYPMCZY/">Link</a> |
 | 9V Batteries | Power | $8.69 | <a href="https://www.amazon.com/Amazon-Basics-Performance-All-Purpose-Batteries/dp/B00MH4QM1S/">Link</a> |
 | Velcro Tape | Mounting components | $8.00 | <a href="https://www.amazon.com/Art3d-Sticky-Double-Sided-Command-Adhesive/dp/B0B58FGF8H/">Link</a> |
 | Digital Multimeter (DMM) | Testing circuits | $9.99 | <a href="https://www.amazon.com/dp/B0CXM242J1">Link</a> |
-| ESP32 CAM WiFi | FPV Camera | $9.99 | <a href="https://www.amazon.com/Hosyond-ESP32-CAM-Bluetooth-Development-Compatible/dp/B09TB1GJ7P?source=ps-sl-shoppingads-lpcontext&ref_=bing_fplfs&utm_source=copilot.com&th=1">Link</a> |
-| FTDI | USB interface for ESP | $14.49 | <a href="https://www.amazon.com/DSD-TECH-SH-U09C5-Converter-Support/dp/B07WX2DSVB/ref=sr_1_5?crid=3V87P5Q8Y81AI&dib=eyJ2IjoiMSJ9.udrhVqoYpjjrLvEmoHwoc2hOSwPgxWX8LTX3tOetBJPG7BYbDL2dNuUTLaO535DxuTqLRycHskMsZSIEy_IfYHQzMGvcI7Rcwsa1RZkIJaiNc0A0dI_04VHDayHAOiV-neZWaVRIgTB5kztaV_2ojVEoD0M1paDYbXVZ8KHsOuc9gNdS4hhgvqaaPfdn7x8b5j2supt1xCDpYGntsQAcvciJ3xWej-kA6xNpiUlDuB0.dyscJbTrcTl6V2wKfYS8IeSH0LV4zvlHtdHcI9CyRqQ&dib_tag=se&keywords=usb%2Bto%2Bttl&qid=1783955558&sprefix=usb%2Bto%2Bttl%2Caps%2C260&sr=8-5">Link</a> |
+
 
 # Other Resources/Examples
 - [Example 1](https://www.hackster.io/embeddedlab786/hand-gesture-control-robot-via-bluetooth-94b13d)
-- [Example 2](https://github.com/espressif/arduino-esp32)
-- [Example 3](https://forum.arduino.cc/t/hc-05-is-in-at-mode-but-not-responding-to-any-command/275186/8)
-- [Example 4](https://www.hackster.io/noah_arduino/using-esp32-cam-with-arduino-b4f12c)
+- [Example 2](https://forum.arduino.cc/t/hc-05-is-in-at-mode-but-not-responding-to-any-command/275186/8)
